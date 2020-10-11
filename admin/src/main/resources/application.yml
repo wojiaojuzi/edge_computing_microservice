@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: admin-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/my?serverTimezone=UTC
+    username: root
+    password: a128263
+server:
+  port: 15002
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:15000/eureka/
+    healthcheck:
+      enabled: true
+
