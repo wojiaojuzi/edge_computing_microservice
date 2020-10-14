@@ -1,7 +1,7 @@
 package com.convoy.mapper;
 
 
-import com.ecs.model.Task;
+import com.convoy.model.Task;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
