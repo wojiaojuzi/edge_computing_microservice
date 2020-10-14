@@ -7,7 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="convoy" />
+        <module name="demo (1) (com)" />
         <module name="eureka" />
+        <module name="demo (2) (zuul)" />
         <module name="prisoner" />
         <module name="admin" />
         <module name="zuul" />
@@ -19,6 +21,8 @@
       <module name="admin" target="1.8" />
       <module name="convoy" target="1.8" />
       <module name="convoy-service" target="1.8" />
+      <module name="demo (1) (com)" target="1.8" />
+      <module name="demo (2) (zuul)" target="1.8" />
       <module name="device" target="1.8" />
       <module name="eureka" target="1.8" />
       <module name="prisoner" target="1.8" />
@@ -30,6 +34,8 @@
       <module name="admin" options="-parameters" />
       <module name="convoy" options="-parameters" />
       <module name="convoy-service" options="-parameters" />
+      <module name="demo (1) (com)" options="-parameters" />
+      <module name="demo (2) (zuul)" options="-parameters" />
       <module name="device" options="-parameters" />
       <module name="eureka" options="-parameters" />
       <module name="prisoner" options="-parameters" />

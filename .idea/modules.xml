@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/admin/admin.iml" filepath="$PROJECT_DIR$/admin/admin.iml" />
       <module fileurl="file://$PROJECT_DIR$/convoy/convoy.iml" filepath="$PROJECT_DIR$/convoy/convoy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/eureka/demo (1) (com).iml" filepath="$PROJECT_DIR$/eureka/demo (1) (com).iml" />
+      <module fileurl="file://$PROJECT_DIR$/zuul/demo (2) (zuul).iml" filepath="$PROJECT_DIR$/zuul/demo (2) (zuul).iml" />
       <module fileurl="file://$PROJECT_DIR$/device/device.iml" filepath="$PROJECT_DIR$/device/device.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/edge_computing_microservice.iml" filepath="$PROJECT_DIR$/.idea/edge_computing_microservice.iml" />
       <module fileurl="file://$PROJECT_DIR$/eureka/eureka.iml" filepath="$PROJECT_DIR$/eureka/eureka.iml" />

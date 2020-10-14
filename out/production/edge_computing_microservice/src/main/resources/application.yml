@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: device-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/microservice_edge?serverTimezone=UTC
+    username: root
+    password: a128263
+server:
+  port: 15004
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:15000/eureka/
+    healthcheck:
+      enabled: true
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+

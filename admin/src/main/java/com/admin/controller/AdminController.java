@@ -61,4 +61,10 @@ public class AdminController {
         return adminService.aboutInformation(adminId);
     }
 
+    @ApiOperation(value="鉴权")
+    @RequestMapping(path = "/getUserIdFromToken", method = RequestMethod.GET)
+    public String getUserIdFromToken(@RequestParam("token")String token) throws Exception {
+        return adminService.getUserIdFromToken(token);
+    }
+
 }
