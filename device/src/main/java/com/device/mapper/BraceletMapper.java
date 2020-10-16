@@ -8,26 +8,6 @@ import org.apache.ibatis.annotations.*;
  **/
 public interface BraceletMapper {
 
-    /*@Update("UPDATE bracelet SET device_status=#{deviceStatus} WHERE bracelet_no=#{braceletNo};")
-    void updateDeviceStatusByBraceletNo(@Param("deviceStatus") boolean deviceStatus, @Param("braceletNo") String braceletNo);
-
-    @Update("UPDATE bracelet SET device_status=#{deviceStatus} WHERE device_no=#{deviceNo};")
-    void updateDeviceStatusByDeviceNo(@Param("deviceStatus") boolean deviceStatus, @Param("deviceNo") String deviceNo);
-
-    @Select("SELECT device_status FROM bracelet WHERE uid=#{uid};")
-    Boolean getDeviceStatusByUid(@Param("uid") String uid);
-
-        @Select("SELECT bracelet_no FROM bracelet WHERE uid=#{uid};")
-    String getBraceletNoByUid(@Param("uid") String uid);
-
-    @Select("SELECT id FROM bracelet WHERE uid=#{uid};")
-    String getBraceletIdByUid(@Param("uid") String uid);
-
-    @Select("SELECT prisoner_id FROM bracelet WHERE bracelet_no=#{braceletNo};")
-    String getPrisonerIdByBraceletNo(@Param("braceletNo") String braceletNo);
-
-    */
-
     @Select("SELECT * FROM bracelet WHERE device_no=#{deviceNo};")
     Bracelet getBraceletByDeviceNo(@Param("deviceNo") String deviceNo);
 
@@ -42,6 +22,9 @@ public interface BraceletMapper {
 
     @Update("UPDATE bracelet SET device_no=#{deviceNo},create_at=#{createAt} WHERE bracelet_no=#{braceletNo}")
     void updateDeviceNoByBraceletNo(@Param("deviceNo") String deviceNo,@Param("braceletNo") String braceletNo,@Param("createAt")String createAt);
+
+    @Select("SELECT device_no FROM bracelet WHERE bracelet_no=#{braceletNo}")
+    String getDeviceNoByBraceletNo(@Param("braceletNo")String braceletNo);
 
 
 
@@ -61,5 +44,5 @@ public interface BraceletMapper {
 
     @Insert("INSERT INTO bracelet(bracelet_no,device_no,create_at) " +
             "VALUES(#{braceletNo},#{deviceNo},#{createAt});")
-    void createBracelet(Bracelet bracelet);
+    void createBracelet(@Param("braceletNo") String braceletNo, @Param("deviceNo") String deviceNo, @Param("createAt")String createAt);
 }

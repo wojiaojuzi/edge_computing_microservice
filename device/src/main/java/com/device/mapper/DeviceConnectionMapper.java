@@ -1,7 +1,9 @@
 package com.device.mapper;
 
+import com.device.model.Device;
 import com.device.model.DeviceConnection;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Service;
 
 public interface DeviceConnectionMapper {
     @Select("select * from device_connection where create_at=(select max(create_at) from (select * from device_connection where device_no=#{deviceNo}) as a) and device_no=#{deviceNo}")
@@ -15,6 +17,7 @@ public interface DeviceConnectionMapper {
     void updateDeviceConnectivityStatusByDeviceNo(@Param("deviceConnectivity")boolean deviceConnectivity,
                                                            @Param("createAt") String createAt,
                                                            @Param("record")String record,@Param("deviceNo")String deviceNo);
+
     @Delete("DELETE FROM device_connection WHERE device_no=#{deviceNo}")
     void deleteByDeviceNo(@Param("deviceNo")String deviceNo);
 }

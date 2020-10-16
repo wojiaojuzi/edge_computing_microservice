@@ -1,5 +1,6 @@
 package com.device.service;
 
+import com.device.feign.AdminFeign;
 import com.device.mapper.*;
 import com.device.model.*;
 import com.device.model.Request.DeviceRegisterRequest;
@@ -18,7 +19,7 @@ public class DeviceService {
     private static final String mysqlSdfPatternString = "yyyy-MM-dd HH:mm:ss";
 
     private final DeviceMapper deviceMapper;
-    private final UserMapper userMapper;
+    private final AdminFeign adminFeign;
     private final BraceletMapper braceletMapper;
     private final VervelMapper vervelMapper;
     private final DeviceConnectionMapper deviceConnectionMapper;
@@ -29,11 +30,10 @@ public class DeviceService {
     private final PrisonerMapper prisonerMapper;
 
     @Autowired
-    public DeviceService(DeviceMapper deviceMapper, UserMapper userMapper, BraceletMapper braceletMapper, VervelMapper vervelMapper,
+    public DeviceService(AdminFeign adminFeign, DeviceMapper deviceMapper, BraceletMapper braceletMapper, VervelMapper vervelMapper,
                          DeviceConnectionMapper deviceConnectionMapper, DeviceGpsMapper deviceGpsMapper,
                          DeviceStateMapper deviceStateMapper, CarMapper carMapper, ConvoyMapper convoyMapper, PrisonerMapper prisonerMapper) {
         this.deviceMapper = deviceMapper;
-        this.userMapper = userMapper;
         this.braceletMapper = braceletMapper;
         this.vervelMapper = vervelMapper;
         this.deviceConnectionMapper = deviceConnectionMapper;
@@ -42,6 +42,7 @@ public class DeviceService {
         this.carMapper = carMapper;
         this.convoyMapper = convoyMapper;
         this.prisonerMapper = prisonerMapper;
+        this.adminFeign = adminFeign;
     }
 
     public DeviceCloudGraphResponse getDeviceCloudGraph(){
@@ -58,7 +59,7 @@ public class DeviceService {
             for(int j =0; j<userIds.size();j++){
                 DeviceAndRing deviceAndRing = new DeviceAndRing();
                 String user_id = userIds.get(j);
-                String userName = userMapper.getUserNameByUserId(user_id);
+                String userName = adminFeign.getUserNameByUserId(user_id);
                 String deviceNo = deviceMapper.getDeviceNoByUserId(user_id);
                 String taskNo = convoyMapper.getConvoyByUserId(user_id).getTaskNo();
                 String prisonerId = convoyMapper.getPrisonerIdByUserId(user_id);
@@ -91,6 +92,27 @@ public class DeviceService {
         return deviceCloudGraphResponse;
     }
 
+    public void updateVervelConnectivityStatus(String deviceNo, String vervelNo){
+        SimpleDateFormat mysqlSdf = new SimpleDateFormat(mysqlSdfPatternString);
+        Date time = new Date();
+        String createAt = mysqlSdf.format(time);
+        //找到原来的设备
+        String lastDeviceNo = vervelMapper.getVervelByVervelNo(vervelNo).getDeviceNo();
+        if(lastDeviceNo != null) {
+            Device lastDevice = deviceMapper.getByDeviceNo(lastDeviceNo);
+            //与旧设备解绑
+            updateDeviceConnectivityStatusByDeviceNo(false, "脚环解绑",lastDeviceNo);
+        }
+        //与新设备建立连接
+        updateDeviceConnectivityStatusByDeviceNo(true, "绑定脚环",deviceNo);
+
+        updateDeviceNoByVervelNo(vervelNo,deviceNo,createAt);
+    }
+
+    public void updateDeviceNoByVervelNo(String vervelNo, String deviceNo,String createAt){
+        vervelMapper.updateDeviceNoByVervelNo(deviceNo,vervelNo,createAt);
+    }
+
     public Device getByDeviceNo(String deviceNo) {
         return deviceMapper.getByDeviceNo(deviceNo);
     }
@@ -111,11 +133,9 @@ public class DeviceService {
             String deviceType = deviceRegisterRequest.getDeviceType();
             String deviceNo = deviceRegisterRequest.getDeviceNo();
             if(deviceType.equals("一体化终端") || deviceType.equals("手持机")) {
-                // 一个user只可能有一个phone和一个ipad
-                if(deviceMapper.getByUserIdAndType(userId, deviceType) != null) {
-                    return null;
-                } else if(deviceMapper.getByDeviceNo(deviceNo) != null) {
-                    return null;
+                if(deviceMapper.getByDeviceNo(deviceNo) != null) {
+                    deviceMapper.updateDeviceUserByDeviceNo(userId, deviceNo);
+                    return deviceMapper.getByDeviceNo(deviceNo);
                 } else {
                     Device device = new Device();
 //                SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");//设置日期格式
@@ -179,7 +199,7 @@ public class DeviceService {
 
     //deviceGps
     public DeviceGps getDeviceGpsBydeviceNo(String deviceNo){
-        return deviceGpsMapper.getByDeivceNo(deviceNo);
+        return deviceGpsMapper.getByDeviceNo(deviceNo);
     }
     public void deleteDeviceGpsDeviceGps(String deviceNo) {
         deviceGpsMapper.deleteByDeviceNo(deviceNo);

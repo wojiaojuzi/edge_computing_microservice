@@ -4,7 +4,7 @@ spring:
   application:
     name: zuul
   datasource:
-    url: jdbc:mysql://localhost:3306/my?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/edge_computing_service?serverTimezone=UTC
     username: root
     password: a128263
 eureka:
@@ -19,6 +19,19 @@ zuul:
   host:
     connect-timeout-millis: 60000
     socket-timeout-millis: 60000
+  routes:
+    admin:
+      path: /admin-service/**
+      serviceId: admin-service
+    device:
+      path: /device-service/**
+      serviceId: device-service
+    convoy:
+      path: /convoy-service/**
+      serviceId: convoy-service
+    prisoner:
+      path: /prisoner-service/**
+      serviceId: prisoner-service
 
 hystrix:
   command:

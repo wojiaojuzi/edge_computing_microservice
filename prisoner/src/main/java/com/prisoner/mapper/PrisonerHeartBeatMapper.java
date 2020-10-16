@@ -1,6 +1,6 @@
 package com.prisoner.mapper;
 
-import com.ecs.model.PrisonerHeartBeat;
+import com.prisoner.model.PrisonerHeartBeat;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -36,5 +36,8 @@ public interface PrisonerHeartBeatMapper {
     @Update("UPDATE prisoner_heartbeat SET longitude=#{longitude},latitude=#{latitude}" +
             " WHERE upload_time = #{lastestTime}" +
             " AND prisoner_id =#{prisonerId};")
-    void updateLongitudeAndLatitudeByPrisonerIdAndLastestTime(@Param("prisonerId") String prisonerId, @Param("lastestTime") Timestamp lastestTime, @Param("longitude") String longitude, @Param("latitude") String latitude);
+    void updateLongitudeAndLatitudeByPrisonerIdAndLastestTime(@Param("prisonerId") String prisonerId,
+                                                              @Param("lastestTime") Timestamp lastestTime,
+                                                              @Param("longitude") String longitude,
+                                                              @Param("latitude") String latitude);
 }

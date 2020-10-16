@@ -1,10 +1,7 @@
 package com.device.mapper;
 
 import com.device.model.Vervel;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 /**
  * Created by Zhaoone on 2019/11/4
@@ -20,6 +17,9 @@ public interface VervelMapper {
     @Select("SELECT * FROM vervel WHERE vervel_no=#{vervelNo}")
     Vervel getVervelByVervelNo(@Param("vervelNo")String vervelNo);
 
+    @Select("SELECT device_no FROM vervel WHERE vervel_no=#{vervelNo}")
+    String getDeviceNoByVervelNo(@Param("vervelNo")String vervelNo);
+
     @Update("UPDATE vervel SET device_no=#{deviceNo},create_at=#{createAt} WHERE vervel_no=#{vervelNo}")
     void updateDeviceNoByVervelNo(@Param("deviceNo")String deviceNo, @Param("vervelNo")String vervelNo ,@Param("createAt")String createAt);
 
@@ -28,6 +28,10 @@ public interface VervelMapper {
 
     @Delete("DELETE FROM vervel WHERE device_no=#{deviceNo};")
     void deleteByDeviceNo(@Param("deviceNo") String deviceNo);
+
+    @Insert("INSERT INTO vervel(vervel_no,device_no,create_at) " +
+            "VALUES(#{vervelNo},#{deviceNo},#{createAt});")
+    void createVervel(@Param("vervelNo") String vervelNo, @Param("deviceNo") String deviceNo, @Param("createAt")String createAt);
 
     /*@Select("SELECT vervel_no FROM vervel WHERE uid=#{uid};")
     String getVervelNoByUid(@Param("uid") String uid);

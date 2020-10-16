@@ -25,19 +25,12 @@ import java.util.Random;
 public class PrisonerService {
     private static final String mysqlSdfPatternString = "yyyy-MM-dd HH:mm:ss";
     private final PrisonerMapper prisonerMapper;
-    private final DeviceMapper deviceMapper;
-    private final UserMapper userMapper;
-    private final BraceletMapper braceletMapper;
     private final PrisonerHeartBeatMapper prisonerHeartBeatMapper;
     private final PrisonerRiskMapper prisonerRiskMapper;
 
     @Autowired
-    public PrisonerService(PrisonerMapper prisonerMapper, DeviceMapper deviceMapper, UserMapper userMapper,
-                           BraceletMapper braceletMapper, PrisonerHeartBeatMapper prisonerHeartBeatMapper, PrisonerRiskMapper prisonerRiskMapper) {
+    public PrisonerService(PrisonerMapper prisonerMapper,PrisonerHeartBeatMapper prisonerHeartBeatMapper, PrisonerRiskMapper prisonerRiskMapper) {
         this.prisonerMapper = prisonerMapper;
-        this.deviceMapper = deviceMapper;
-        this.userMapper = userMapper;
-        this.braceletMapper = braceletMapper;
         this.prisonerHeartBeatMapper = prisonerHeartBeatMapper;
         this.prisonerRiskMapper = prisonerRiskMapper;
     }

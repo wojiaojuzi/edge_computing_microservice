@@ -1,6 +1,6 @@
-package com.device.mapper;
+package com.admin.mapper;
 
-import com.device.model.Device;
+import com.admin.model.Device;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -17,10 +17,10 @@ public interface DeviceMapper {
     @Select("SELECT * FROM device WHERE user_id=#{userId}")
     Device getByUserId(@Param("userId") String userId);
 
-    @Select("SELECT * FROM device;")
+    @Select("SELECT * FROM device")
     List<Device> getAll();
 
-    @Insert("INSERT INTO device(device_no,device_status,uid,device_type) VALUES(#{deviceNo},#{deviceStatus},#{uid},#{deviceType});")
+    @Insert("INSERT INTO device(device_no,user_id,device_type) VALUES(#{deviceNo},#{userId},#{deviceType});")
     Integer createDevice(Device device);
 
     @Delete("DELETE FROM device WHERE device_no=#{deviceNo};")

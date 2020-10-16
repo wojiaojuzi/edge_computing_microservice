@@ -1,5 +1,6 @@
 package com.prisoner.controller;
 
+import com.prisoner.feign.AdminFeign;
 import com.prisoner.model.Response.HttpResponseContent;
 import com.prisoner.model.Response.PrisonerDataResponse;
 import com.prisoner.model.Response.PrisonerRiskDataResponse;
@@ -25,31 +26,22 @@ import java.util.List;
 public class PrisonerController {
 
     private final PrisonerService prisonerService;
-    private final TaskService taskService;
-    private final AdminService adminService;
+    private final AdminFeign adminFeign;
     private final PrisonerDataService prisonerDataService;
 
     @Autowired
-    public PrisonerController(PrisonerService prisonerService, TaskService taskService, AdminService adminService, PrisonerDataService prisonerDataService) {
+    public PrisonerController(PrisonerService prisonerService, AdminFeign adminFeign, PrisonerDataService prisonerDataService) {
         this.prisonerService = prisonerService;
-        this.taskService = taskService;
-        this.adminService = adminService;
+        this.adminFeign = adminFeign;
         this.prisonerDataService = prisonerDataService;
     }
 
 
 
-/*    @ApiOperation(value = "获取单个犯人信息")
-    @RequestMapping(path = "/get", method = RequestMethod.GET)
-    public Prisoner getById(@RequestParam("prisonerId") String prisonerId,@RequestHeader(value="token") String token) throws Exception{
-        String userId = adminService.getUserIdFromToken(token);
-        return prisonerService.getById(prisonerId);
-    }*/
-
     @ApiOperation(value = "获取所有犯人信息")
     @RequestMapping(path = "/getAllPrisonerData", method = RequestMethod.GET)
     public HttpResponseContent getAllPrisonerData(@RequestHeader(value="token") String token) throws Exception{
-        String adminId = adminService.getUserIdFromToken(token);
+        String adminId = adminFeign.getUserIdFromToken(token);
         List<PrisonerDataResponse> prisonerDataResponses = prisonerService.getAllPrisonerData();
 
         HttpResponseContent response = new HttpResponseContent();
@@ -62,7 +54,7 @@ public class PrisonerController {
     @RequestMapping(path = "/getPrisonerRiskValue", method = RequestMethod.GET)
     public HttpResponseContent getPrisonerRiskValue(@RequestParam("prisonerId")String prisonerId,
                                                     @RequestHeader(value="token") String token) throws Exception {
-        String adminId = adminService.getUserIdFromToken(token);
+        String adminId = adminFeign.getUserIdFromToken(token);
         List<PrisonerRiskDataResponse> prisonerDataResponses = prisonerService.getPrisonerRiskValue(prisonerId);
         HttpResponseContent response = new HttpResponseContent();
         response.setCode(ResponseEnum.SUCCESS.getCode());

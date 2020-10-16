@@ -11,7 +11,7 @@ public interface DeviceGpsMapper {
     void deleteByDeviceNo(@Param("deviceNo")String deviceNo);
 
     @Select("select * from device_gps where create_at=(select max(create_at) from (select * from device_gps where device_no=#{deviceNo}) as a) and device_no=#{deviceNo}")
-    DeviceGps getByDeivceNo(@Param("deviceNo")String deviceNo);
+    DeviceGps getByDeviceNo(@Param("deviceNo")String deviceNo);
 
     @Insert("INSERT INTO device_gps SET device_no=#{deviceNo},longitude=#{longitude},latitude=#{latitude},height=#{height},create_at=#{createAt}")
     void createDeviceGps(@Param("deviceNo")String deviceNo, @Param("longitude")String longitude,
