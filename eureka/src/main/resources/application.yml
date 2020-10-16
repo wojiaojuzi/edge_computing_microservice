@@ -11,12 +11,4 @@ eureka:
     fetchRegistry: false
     serviceUrl:
       defaultZone: http://localhost:15000/eureka
-management:
-  endpoints:
-    web:
-      exposure:
-        include:
-          - "*"  # 开放所有端点health，info，metrics，通过actuator/+端点名就可以获取相应的信息。默认打开health和info
-  endpoint:
-    health:
-      show-details: always  #未开启actuator/health时，我们获取到的信息是{"status":"UP"}，status的值还有可能是 DOWN。开启后打印详细信息
+
