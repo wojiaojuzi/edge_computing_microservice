@@ -6,6 +6,7 @@ import com.prisoner.model.PrisonerHeartBeat;
 import com.prisoner.model.PrisonerRisk;
 import com.prisoner.model.Response.PrisonerDataResponse;
 import com.prisoner.model.Response.PrisonerRiskDataResponse;
+import com.prisoner.model.Response.PrisonerToPadResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -121,5 +122,12 @@ public class PrisonerService {
         return prisonerMapper.getAll();
     }
 
+    public PrisonerToPadResponse getPrisonerAllInformation(String prisonerId){
+        PrisonerToPadResponse prisonerToPadResponse = new PrisonerToPadResponse();
+        prisonerToPadResponse.setPrisoner(prisonerMapper.getByPrisonerId(prisonerId));
+        prisonerToPadResponse.setPrisonerHeartBeat(prisonerHeartBeatMapper.getLastestHeartbeatByPrisonerId(prisonerId));
+        prisonerToPadResponse.setPrisonerRisk(prisonerRiskMapper.getByPrisonerId(prisonerId));
 
+        return prisonerToPadResponse;
+    }
 }

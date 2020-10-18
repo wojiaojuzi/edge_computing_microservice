@@ -62,34 +62,29 @@ public class BraceletService {
         String createAt = mysqlSdf.format(time);
         //找到原来的设备
 
-        if(braceletMapper.getByBraceletNo(braceletNo) == null)
-            braceletMapper.createBracelet(braceletNo,deviceNo,createAt);
-        String lastDeviceNo = braceletMapper.getDeviceNoByBraceletNo(braceletNo);
-        if(deviceMapper.getByDeviceNo(deviceNo)!=null) {
-            if (lastDeviceNo != null) {
-                if (braceletMapper.getDeviceNoByBraceletNo(braceletNo) != lastDeviceNo) {
-                    updateDeviceConnectivityStatusByDeviceNo(false, "手环解绑", lastDeviceNo);
-                    updateDeviceConnectivityStatusByDeviceNo(true, "绑定手环", deviceNo);
-                }
-                //与新设备建立连接
-                braceletMapper.updateDeviceNoByBraceletNo(braceletNo, deviceNo, createAt);
 
-                return true;
+        String lastDeviceNo = braceletMapper.getDeviceNoByBraceletNo(braceletNo);
+        String lastBraceletNo = braceletMapper.getBraceletNoByDeviceNo(deviceNo);
+        if(deviceMapper.getByDeviceNo(deviceNo)!=null) {
+            //System.out.println("deviceNo:"+lastDeviceNo+" "+deviceNo);
+            if (lastDeviceNo != deviceNo && lastDeviceNo!=null) {//如果手环要绑的设备和之前绑定的不同  就先解绑
+                updateDeviceConnectivityStatusByDeviceNo(false, "手环解绑", braceletNo);
             }
+            //System.out.println("braceletNo:"+lastBraceletNo+" "+braceletNo);
+            if(lastBraceletNo != braceletNo && lastBraceletNo!=null) {//如果新设备已经绑定了其他设备  就先解绑
+                updateDeviceConnectivityStatusByDeviceNo(false, "手环解绑", lastBraceletNo);
+                braceletMapper.deleteByBraceletNo(lastBraceletNo);
+            }
+
+
+            if(braceletMapper.getByBraceletNo(braceletNo) == null)
+                braceletMapper.createBracelet(braceletNo,deviceNo,createAt);
+            //与新设备建立连接
+            braceletMapper.updateDeviceNoByBraceletNo(deviceNo, braceletNo,  createAt);
+            updateDeviceConnectivityStatusByDeviceNo(true, "绑定手环", braceletNo);
+
+            return true;
         }
-        /*else{// 就创建新的
-            if(braceletMapper.getByBraceletNo(braceletNo) == null) {
-                if (!bindNewBracelet(braceletNo, deviceNo)) {
-                    throw new EdgeComputingServiceException(ResponseEnum.DEVICE_NOT_EXIST.getCode(), ResponseEnum.DEVICE_NOT_EXIST.getMessage());
-                }
-                return true;
-            }
-            else {
-                braceletMapper.updateDeviceNoByBraceletNo(braceletNo, deviceNo, createAt);
-                updateDeviceConnectivityStatusByDeviceNo(true, "绑定手环",deviceNo);
-                return true;
-            }
-        }*/
 
         return false;
 

@@ -68,7 +68,9 @@ public class DeviceService {
                     String deviceType = deviceMapper.getByDeviceNo(deviceNo).getDeviceType();
                     String braceletNo = braceletMapper.getBraceletNoByDeviceNo(deviceNo);
                     String vervelNo = vervelMapper.getVervelNoByDeviceNo(deviceNo);
-                    boolean deviceConnectivityStatus = deviceConnectionMapper.getByDeviceNo(deviceNo).isDeviceConnectivityStatus();
+                    Boolean deviceConnectivityStatus = deviceConnectionMapper.getDeviceConnectivityStatusByDeviceNo(deviceNo);
+                    Boolean braceletConnectivityStatus = deviceConnectionMapper.getDeviceConnectivityStatusByDeviceNo(braceletNo);
+                    Boolean vervelConnectivityStatus = deviceConnectionMapper.getDeviceConnectivityStatusByDeviceNo(vervelNo);
                     deviceAndRing.setUserName(userName);
                     deviceAndRing.setDeviceName(deviceType+deviceNo);
                     deviceAndRing.setTaskNo(taskNo);
@@ -77,7 +79,9 @@ public class DeviceService {
                     deviceAndRing.setDeviceType(deviceType);
                     deviceAndRing.setDeviceConnectivityStatus(deviceConnectivityStatus);
                     deviceAndRing.setBraceletNo(braceletNo);
+                    deviceAndRing.setBraceletConnectivityStatus(braceletConnectivityStatus);
                     deviceAndRing.setVervelNo(vervelNo);
+                    deviceAndRing.setVervelConnectivityStatus(vervelConnectivityStatus);
 
                     deviceAndRingList.add(deviceAndRing);
                 }

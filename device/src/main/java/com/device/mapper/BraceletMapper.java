@@ -17,6 +17,9 @@ public interface BraceletMapper {
     @Delete("DELETE FROM bracelet WHERE device_no=#{deviceNo};")
     void deleteByDeviceNo(@Param("deviceNo") String deviceNo);
 
+    @Delete("DELETE FROM bracelet WHERE bracelet_no=#{braceletNo};")
+    void deleteByBraceletNo(@Param("braceletNo") String braceletNo);
+
     @Select("select * from bracelet where create_at=(select max(create_at) from (select * from bracelet where bracelet_no =#{braceletNo}) as a)")
     Bracelet getByBraceletNo(@Param("braceletNo") String braceletNo);
 

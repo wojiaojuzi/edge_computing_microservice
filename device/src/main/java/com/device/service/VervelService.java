@@ -58,37 +58,30 @@ public class VervelService {
         Date time = new Date();
         String createAt = mysqlSdf.format(time);
         //找到原来的设备
-        if(vervelMapper.getVervelByVervelNo(vervelNo) == null)
-            vervelMapper.createVervel(vervelNo,deviceNo,createAt);
-        String lastDeviceNo = vervelMapper.getDeviceNoByVervelNo(vervelNo);
-        if(deviceMapper.getByDeviceNo(deviceNo)!=null) {
-            if (lastDeviceNo != null) {
-                if (vervelMapper.getDeviceNoByVervelNo(vervelNo) != lastDeviceNo) {
-                    //与旧设备解绑
-                    updateDeviceConnectivityStatusByDeviceNo(false, "手环解绑", lastDeviceNo);
-                    updateDeviceConnectivityStatusByDeviceNo(true, "绑定手环", deviceNo);
-                }
-                else
-                    vervelMapper.createVervel(vervelNo, null, createAt);
-                //与新设备建立连接
-                vervelMapper.updateDeviceNoByVervelNo(vervelNo, deviceNo, createAt);
 
-                return true;
+
+        String lastDeviceNo = vervelMapper.getDeviceNoByVervelNo(vervelNo);
+        String lastVervelNo = vervelMapper.getVervelNoByDeviceNo(deviceNo);
+        if(deviceMapper.getByDeviceNo(deviceNo)!=null) {
+            //System.out.println("deviceNo:"+lastDeviceNo+" "+deviceNo);
+            if (lastDeviceNo != deviceNo && lastDeviceNo!=null) {//如果手环要绑的设备和之前绑定的不同  就先解绑
+                updateDeviceConnectivityStatusByDeviceNo(false, "手环解绑", vervelNo);
             }
+            //System.out.println("braceletNo:"+lastBraceletNo+" "+braceletNo);
+            if(lastVervelNo != vervelNo && lastVervelNo!=null) {//如果新设备已经绑定了其他设备  就先解绑
+                updateDeviceConnectivityStatusByDeviceNo(false, "手环解绑", lastVervelNo);
+                vervelMapper.deleteByVervelNo(lastVervelNo);
+            }
+
+
+            if(vervelMapper.getVervelByVervelNo(vervelNo) == null)
+                vervelMapper.createVervel(vervelNo,deviceNo,createAt);
+            //与新设备建立连接
+            vervelMapper.updateDeviceNoByVervelNo( deviceNo, vervelNo, createAt);
+            updateDeviceConnectivityStatusByDeviceNo(true, "绑定手环", vervelNo);
+
+            return true;
         }
-        /*else{//如果没有手环 就创建新的
-            if(vervelMapper.getVervelByVervelNo(vervelNo) == null) {
-                if (!bindNewVervel(vervelNo, deviceNo)) {
-                    throw new EdgeComputingServiceException(ResponseEnum.DEVICE_NOT_EXIST.getCode(), ResponseEnum.DEVICE_NOT_EXIST.getMessage());
-                }
-                return true;
-            }
-            else {
-                vervelMapper.updateDeviceNoByVervelNo(vervelNo, deviceNo, createAt);
-                updateDeviceConnectivityStatusByDeviceNo(true, "绑定手环",deviceNo);
-                return true;
-            }
-        }*/
 
         return false;
 

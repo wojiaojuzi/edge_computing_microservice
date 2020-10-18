@@ -29,6 +29,9 @@ public interface VervelMapper {
     @Delete("DELETE FROM vervel WHERE device_no=#{deviceNo};")
     void deleteByDeviceNo(@Param("deviceNo") String deviceNo);
 
+    @Delete("DELETE FROM vervel WHERE vervel_no=#{vervelNo};")
+    void deleteByVervelNo(@Param("vervelNo") String vervelNo);
+
     @Insert("INSERT INTO vervel(vervel_no,device_no,create_at) " +
             "VALUES(#{vervelNo},#{deviceNo},#{createAt});")
     void createVervel(@Param("vervelNo") String vervelNo, @Param("deviceNo") String deviceNo, @Param("createAt")String createAt);

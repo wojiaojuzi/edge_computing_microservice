@@ -91,7 +91,7 @@ public class TaskController {
     public HttpResponseContent getVideoUrl(@RequestHeader(value="token") String token) throws Exception {
         String user_Id = adminFeign.getUserIdFromToken(token);
         HttpResponseContent response = new HttpResponseContent();
-        List<VideoUrlResponse> videoUrlResponses = taskService.getVideoUrl();
+        VideoUrlResponse videoUrlResponses = taskService.getVideoUrl();
 
         response.setCode(ResponseEnum.SUCCESS.getCode());
         response.setMessage(ResponseEnum.SUCCESS.getMessage());

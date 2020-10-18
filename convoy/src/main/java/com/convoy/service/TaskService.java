@@ -39,25 +39,26 @@ public class TaskService {
     }
 
 
-    public List<VideoUrlResponse> getVideoUrl(){
+    public VideoUrlResponse getVideoUrl(){
         List<Car> cars = carMapper.getAll();
-        List<VideoUrlResponse> videoUrlResponses = new ArrayList<>();
+        VideoUrlResponse videoUrlResponse = new VideoUrlResponse();
         for(int i=0;i<cars.size();i++){
-            VideoUrlResponse videoUrlResponse = new VideoUrlResponse();
             Car car = cars.get(i);
-            CarInner carInner = new CarInner();
-            CarOuter carOuter = new CarOuter();
-            carInner.setCarNo(car.getCarNo());
-            carInner.setCarInnerVideoUrl(car.getCarInnerVideoUrl());
-            carOuter.setCarNo(car.getCarNo());
-            carOuter.setCarOuterVideoUrl(car.getCarOuterVideoUrl());
+            if(!car.getType().equals("指挥车")) {
+                CarInner carInner = new CarInner();
+                CarOuter carOuter = new CarOuter();
+                carInner.setCarNo(car.getCarNo());
+                carInner.setCarInnerVideoUrl(car.getCarInnerVideoUrl());
+                carOuter.setCarNo(car.getCarNo());
+                carOuter.setCarOuterVideoUrl(car.getCarOuterVideoUrl());
 
-            videoUrlResponse.setCarInner(carInner);
-            videoUrlResponse.setCarOuter(carOuter);
+                videoUrlResponse.getCarInner().add(carInner);
+                videoUrlResponse.getCarOuter().add(carOuter);
 
-            videoUrlResponses.add(videoUrlResponse);
+                //videoUrlResponses.add(videoUrlResponse);
+            }
         }
-        return videoUrlResponses;
+        return videoUrlResponse;
     }
 
     public List<EscortDataResponse> getAllTasks(){

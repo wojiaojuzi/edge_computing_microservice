@@ -30,15 +30,17 @@ public class DeviceController {
     private final BraceletService braceletService;
     private final AdminFeign adminFeign;
     private final CloudService cloudService;
+    private final VervelService vervelService;
 
 
     @Autowired
     public DeviceController(DeviceService deviceService, BraceletService braceletService,
-                            AdminFeign adminFeign, CloudService cloudService) {
+                            AdminFeign adminFeign, CloudService cloudService, VervelService vervelService) {
         this.deviceService = deviceService;
         this.braceletService = braceletService;
         this.adminFeign = adminFeign;
         this.cloudService = cloudService;
+        this.vervelService = vervelService;
     }
 
     @ApiOperation(value = "注册新设备")    //未修改关于手环、脚环的部分

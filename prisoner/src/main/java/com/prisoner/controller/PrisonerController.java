@@ -1,10 +1,7 @@
 package com.prisoner.controller;
 
 import com.prisoner.feign.AdminFeign;
-import com.prisoner.model.Response.HttpResponseContent;
-import com.prisoner.model.Response.PrisonerDataResponse;
-import com.prisoner.model.Response.PrisonerRiskDataResponse;
-import com.prisoner.model.Response.ResponseEnum;
+import com.prisoner.model.Response.*;
 import com.prisoner.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,7 +33,12 @@ public class PrisonerController {
         this.prisonerDataService = prisonerDataService;
     }
 
-
+    @ApiOperation(value = "获取单个犯人信息")
+    @RequestMapping(path = "/get", method = RequestMethod.GET)
+    public PrisonerToPadResponse getById(@RequestParam("prisonerId") String prisonerId, @RequestHeader(value="token") String token) throws Exception{
+        String userId = adminFeign.getUserIdFromToken(token);
+        return prisonerService.getPrisonerAllInformation(prisonerId);
+    }
 
     @ApiOperation(value = "获取所有犯人信息")
     @RequestMapping(path = "/getAllPrisonerData", method = RequestMethod.GET)

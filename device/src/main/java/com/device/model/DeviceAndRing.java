@@ -13,11 +13,15 @@ public class DeviceAndRing {
 
     private String deviceType;
 
-    private boolean deviceConnectivityStatus;
+    private Boolean deviceConnectivityStatus;
 
     private String braceletNo;
 
+    private Boolean braceletConnectivityStatus;
+
     private String vervelNo;
+
+    private Boolean vervelConnectivityStatus;
 
     public String getDeviceNo() {
         return deviceNo;
@@ -67,11 +71,11 @@ public class DeviceAndRing {
         this.deviceType = deviceType;
     }
 
-    public boolean isDeviceConnectivityStatus() {
+    public Boolean getDeviceConnectivityStatus() {
         return deviceConnectivityStatus;
     }
 
-    public void setDeviceConnectivityStatus(boolean deviceConnectivityStatus) {
+    public void setDeviceConnectivityStatus(Boolean deviceConnectivityStatus) {
         this.deviceConnectivityStatus = deviceConnectivityStatus;
     }
 
@@ -83,11 +87,27 @@ public class DeviceAndRing {
         this.braceletNo = braceletNo;
     }
 
+    public Boolean getBraceletConnectivityStatus() {
+        return braceletConnectivityStatus;
+    }
+
+    public void setBraceletConnectivityStatus(Boolean braceletConnectivityStatus) {
+        this.braceletConnectivityStatus = braceletConnectivityStatus;
+    }
+
     public String getVervelNo() {
         return vervelNo;
     }
 
     public void setVervelNo(String vervelNo) {
         this.vervelNo = vervelNo;
+    }
+
+    public Boolean getVervelConnectivityStatus() {
+        return vervelConnectivityStatus;
+    }
+
+    public void setVervelConnectivityStatus(Boolean vervelConnectivityStatus) {
+        this.vervelConnectivityStatus = vervelConnectivityStatus;
     }
 }
