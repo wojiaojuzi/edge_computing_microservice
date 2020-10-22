@@ -16,4 +16,7 @@ public interface DeviceGpsMapper {
     @Insert("INSERT INTO device_gps SET device_no=#{deviceNo},longitude=#{longitude},latitude=#{latitude},height=#{height},create_at=#{createAt}")
     void createDeviceGps(@Param("deviceNo")String deviceNo, @Param("longitude")String longitude,
                          @Param("latitude")String latitude,@Param("height")String height,@Param("createAt")String create_at);
+
+    @Delete("DELETE FROM device_gps")
+    void deleteAll();
 }

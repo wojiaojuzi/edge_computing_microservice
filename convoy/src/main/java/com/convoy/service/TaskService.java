@@ -2,6 +2,7 @@ package com.convoy.service;
 
 import com.convoy.mapper.*;
 import com.convoy.model.*;
+import com.convoy.model.Response.CoordinateResponse;
 import com.convoy.model.Response.EscortDataResponse;
 import com.convoy.model.Response.VideoUrlResponse;
 import com.convoy.utils.SqlUtil;
@@ -93,8 +94,28 @@ public class TaskService {
 
 
 
-    public List<Route> getAllRoute(){
-        return routeMapper.getAllRoute();
+    public String[][] getAllRoute(){
+        List<CoordinateResponse> coordinateResponses = routeMapper.getCoordinateResponse();
+        /*List<Route> routes = routeMapper.getAllRoute();
+        for(int i=0;i<routes.size();i++){
+            Route route = routes.get(i);
+            CoordinateResponse coordinateResponse = new CoordinateResponse();
+            coordinateResponse.setLongitutde(route.getLongitude());
+            coordinateResponse.setLatitude(route.getLatitude());
+        }
+
+         */
+        String[][] res = new String[coordinateResponses.size()][2];
+        for(int i=0;i<coordinateResponses.size();i++){
+            res[i][0] = coordinateResponses.get(i).getLongitude();
+            res[i][1] = coordinateResponses.get(i).getLatitude();
+        }
+        return res;
+    }
+
+    public String[] getStartPoint(){
+        Route route = routeMapper.getByPointId(1);
+        return new String[]{route.getLongitude(),route.getLatitude()};
     }
 
     public boolean getDataBaseStatus(){

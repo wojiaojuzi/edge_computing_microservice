@@ -11,6 +11,7 @@ public class EdgeComputingServiceException extends RuntimeException {
     private String myMessage;
 
     public EdgeComputingServiceException(int httpStatus, String myMessage) {
+        super(myMessage);
         this.httpStatus = httpStatus;
         this.myMessage = myMessage;
     }

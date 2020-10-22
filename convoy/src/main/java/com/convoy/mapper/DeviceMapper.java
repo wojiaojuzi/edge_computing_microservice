@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 public interface DeviceMapper {
+    @Select("SELECT * FROM device WHERE user_id=#{userId} and device_type=#{deviceType}")
+    Device getByUserIdAndDeviceType(@Param("userId")String userId,@Param("deviceType")String deviceType);
 
     //property是实体类属性，column是数据库字段
     @Select("SELECT * FROM device WHERE device_no=#{deviceNo};")

@@ -34,7 +34,8 @@ public enum ResponseEnum {
     ALREADY_LOGIN(403, "您已经在其它地点登陆，请重新登陆"),
 
     DEVICE_NOT_EXIST(404, "请求的设备不存在"),
-    DEVICE_REGISTER_FAIL(400, "注册设备失败");
+    DEVICE_REGISTER_FAIL(400, "注册设备失败"),
+    DEVICE_HAS_CREATED(400,"设备已存在");
 
     private Integer code;
     private String message;

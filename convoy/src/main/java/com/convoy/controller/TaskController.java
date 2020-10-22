@@ -122,15 +122,19 @@ public class TaskController {
 
     @ApiOperation(value = "获取路线信息")
     @RequestMapping(path = "/getCarRoute", method = RequestMethod.GET)
-    public List<Route> getAllRoute(@RequestHeader(value="token") String token) throws Exception{
-        return taskService.getAllRoute();
+    public HttpResponseContent getAllRoute(@RequestHeader(value="token") String token) throws Exception{
+        HttpResponseContent response = new HttpResponseContent();
+        response.setCode(ResponseEnum.SUCCESS.getCode());
+        response.setMessage(ResponseEnum.SUCCESS.getMessage());
+        response.setData(taskService.getAllRoute());
+        return response;
     }
 
     @ApiOperation(value = "（前端轨迹展示）获取全部GPS数据")
     @RequestMapping(path = "/getCarGps", method = RequestMethod.GET)
     public HttpResponseContent getAllGps2(@RequestHeader(value="token") String token) throws Exception{
         String userId = adminFeign.getUserIdFromToken(token);
-        List<CarGpsResponse> carGpsResponses = carService.getAllCarGps();
+        List<CarGpsResponse> carGpsResponses = carService.getCarGps();
         HttpResponseContent response = new HttpResponseContent();
         response.setCode(ResponseEnum.SUCCESS.getCode());
         response.setMessage(ResponseEnum.SUCCESS.getMessage());
@@ -141,11 +145,23 @@ public class TaskController {
     @ApiOperation(value = "（云中心）获取全部GPS数据")
     @RequestMapping(path = "/getGPS", method = RequestMethod.GET)
     public HttpResponseContent getAllGps(){
-        List<CarGpsResponse> carGpsResponses = carService.getAllCarGps();
+        List<CarGpsResponse> carGpsResponses = carService.getCarGps();
         HttpResponseContent response = new HttpResponseContent();
         response.setCode(ResponseEnum.SUCCESS.getCode());
         response.setMessage(ResponseEnum.SUCCESS.getMessage());
         response.setData(carGpsResponses);
+        return response;
+    }
+
+    @ApiOperation(value = "获取起点坐标")
+    @RequestMapping(path = "/getStartPoint", method = RequestMethod.GET)
+    public HttpResponseContent getStartPoint(@RequestHeader(value="token") String token) throws Exception {
+        String userId = adminFeign.getUserIdFromToken(token);
+        HttpResponseContent response = new HttpResponseContent();
+        String[] res = taskService.getStartPoint();
+        response.setCode(ResponseEnum.SUCCESS.getCode());
+        response.setMessage(ResponseEnum.SUCCESS.getMessage());
+        response.setData(res);
         return response;
     }
 

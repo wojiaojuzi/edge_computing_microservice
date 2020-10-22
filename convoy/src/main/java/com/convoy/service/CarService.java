@@ -8,7 +8,9 @@ import com.convoy.mapper.DeviceMapper;
 import com.convoy.model.Car;
 import com.convoy.model.Convoy;
 import com.convoy.model.DeviceGps;
+import com.convoy.model.Response.CarCameraResponse;
 import com.convoy.model.Response.CarGpsResponse;
+import com.convoy.utils.ImitateCoor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +44,11 @@ public class CarService {
         return carMapper.getCommandCarNo();
     }
 
-    public List<CarGpsResponse>getAllCarGps(){
+    public List<CarCameraResponse> getCamera(){
+        return carMapper.getCarCamera("押解车");
+    }
+
+    public List<CarGpsResponse> getCarGps(){
         List<CarGpsResponse> carGpsResponses = new ArrayList<>();
         List<Car> cars = carMapper.getAll();
         for(int i = 0; i < cars.size(); i++){
@@ -53,20 +59,25 @@ public class CarService {
             carGpsResponse.setCarType(cars.get(i).getType());
             carGpsResponse.setColor(cars.get(i).getColor());
             carGpsResponse.setTaskNo(convoys.get(0).getTaskNo());
-
-            for(int j=0;j<convoys.size();j++){
-                String user_id = convoys.get(j).getUserId();
-                DeviceGps deviceGps = null;
-                if(deviceMapper.getByUserId(user_id)!=null) {
-                    String device_no = deviceMapper.getByUserId(user_id).getDeviceNo();
-                    deviceGps = deviceGpsMapper.getByDeviceNo(device_no);
-                    if(deviceGps!=null){
-                        carGpsResponse.setHeight(deviceGps.getHeight());
-                        carGpsResponse.setLongitude(deviceGps.getLongitude());
-                        carGpsResponse.setLatitude(deviceGps.getLatitude());
-                        break;
+            if(cars.get(i).getType().equals("押解车"))
+                for(int j=0;j<convoys.size();j++){
+                    String user_id = convoys.get(j).getUserId();
+                    DeviceGps deviceGps = null;
+                    if(deviceMapper.getByUserIdAndDeviceType(user_id,"一体化终端")!=null) {
+                        String device_no = deviceMapper.getByUserIdAndDeviceType(user_id,"一体化终端").getDeviceNo();
+                        deviceGps = deviceGpsMapper.getByDeviceNo(device_no);
+                        if(deviceGps!=null){
+                            carGpsResponse.setHeight(deviceGps.getHeight());
+                            carGpsResponse.setLongitude(deviceGps.getLongitude());
+                            carGpsResponse.setLatitude(deviceGps.getLatitude());
+                            break;
+                        }
                     }
                 }
+            else{
+                carGpsResponse.setHeight(ImitateCoor.height);
+                carGpsResponse.setLongitude(ImitateCoor.lon);
+                carGpsResponse.setLatitude(ImitateCoor.lat);
             }
 
 
