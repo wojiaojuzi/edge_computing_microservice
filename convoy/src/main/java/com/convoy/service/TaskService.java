@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +138,7 @@ public class TaskService {
         return true;
     }
 
-    public void inputTasks() throws SQLException, ClassNotFoundException {
+    public void inputTasks() throws SQLException, ClassNotFoundException, IOException {
         //File file1 = new File("/media/guoxidong/TEST/guoxidong/create_database.sql");
         //File file2 = new File("/media/guoxidong/TEST/guoxidong/register_task.sql");
         //File file3 = new File("/media/guoxidong/TEST/guoxidong/edge_computing_service_part.sql");
@@ -148,5 +149,16 @@ public class TaskService {
         SqlUtil.mybatisExec2(file1);
         SqlUtil.mybatisExec(file2);
         SqlUtil.mybatisExec(file3);
+
+        createRouteBrief();
+    }
+    public void createRouteBrief() throws IOException {
+        String exe = "python";
+        String command = "./py/tracing.py";
+
+
+        String[] cmdArr = new String[]{exe, command};
+        Process process = Runtime.getRuntime().exec(cmdArr);
+        System.out.println("routeBrief");
     }
 }

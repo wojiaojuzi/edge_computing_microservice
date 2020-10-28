@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +102,7 @@ public class TaskController {
 
     @ApiOperation(value = "押解任务导入")
     @RequestMapping(path = "/inputTasks", method = RequestMethod.GET)
-    public HttpResponseContent inputTasks() throws SQLException, ClassNotFoundException {
+    public HttpResponseContent inputTasks() throws Exception {
         taskService.inputTasks();
         return null;
     }
