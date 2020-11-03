@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+
 @SpringBootApplication
 @EnableEurekaClient
 @EnableFeignClients
@@ -20,8 +22,12 @@ import org.springframework.web.client.RestTemplate;
 @MapperScan("com.prisoner.mapper")
 public class PrisonerApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         SpringApplication.run(PrisonerApplication.class, args);
+        String exe = "python";
+        String command = "./py/weighted_risk_score.py";
+        String[] cmdArr = new String[]{exe, command};
+        Process process = Runtime.getRuntime().exec(cmdArr);
     }
     @Autowired
     private RestTemplateBuilder builder;
