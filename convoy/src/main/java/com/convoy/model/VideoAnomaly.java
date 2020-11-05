@@ -17,21 +17,11 @@ public class VideoAnomaly {
     private String createAt;
 
     @ApiModelProperty(value = "车辆编号")
-    private Integer carNo;
+    private String carNo;
 
-    private Integer cover;
+    private Integer videoRiskValue;
 
-    private Integer stand;
-
-    private Integer sit;
-
-    private Integer kick;
-
-    private Integer fight;
-
-    private Integer punch;
-
-    private Integer walk;
+    private String path;
 
     public String getId() {
         return id;
@@ -65,67 +55,27 @@ public class VideoAnomaly {
         this.createAt = createAt;
     }
 
-    public Integer getCarNo() {
+    public String getCarNo() {
         return carNo;
     }
 
-    public void setCarNo(Integer carNo) {
+    public void setCarNo(String carNo) {
         this.carNo = carNo;
     }
 
-    public Integer getCover() {
-        return cover;
+    public Integer getVideoRiskValue() {
+        return videoRiskValue;
     }
 
-    public void setCover(Integer cover) {
-        this.cover = cover;
+    public void setVideoRiskValue(Integer videoRiskValue) {
+        this.videoRiskValue = videoRiskValue;
     }
 
-    public Integer getStand() {
-        return stand;
+    public String getPath() {
+        return path;
     }
 
-    public void setStand(Integer stand) {
-        this.stand = stand;
-    }
-
-    public Integer getSit() {
-        return sit;
-    }
-
-    public void setSit(Integer sit) {
-        this.sit = sit;
-    }
-
-    public Integer getKick() {
-        return kick;
-    }
-
-    public void setKick(Integer kick) {
-        this.kick = kick;
-    }
-
-    public Integer getFight() {
-        return fight;
-    }
-
-    public void setFight(Integer fight) {
-        this.fight = fight;
-    }
-
-    public Integer getPunch() {
-        return punch;
-    }
-
-    public void setPunch(Integer punch) {
-        this.punch = punch;
-    }
-
-    public Integer getWalk() {
-        return walk;
-    }
-
-    public void setWalk(Integer walk) {
-        this.walk = walk;
+    public void setPath(String path) {
+        this.path = path;
     }
 }

@@ -1,5 +1,6 @@
 package com.convoy.controller;
 
+import com.convoy.model.Response.CarAndVideoAnomaly;
 import com.convoy.model.Response.CarCameraResponse;
 import com.convoy.model.Response.HttpResponseContent;
 import com.convoy.model.Response.ResponseEnum;
@@ -25,11 +26,27 @@ public class CarController {
     public CarController(CarService carService) {
         this.carService = carService;
     }
-    @ApiOperation(value = "获取车辆信息")
+
+
+    @ApiOperation(value = "获取车辆摄像头信息")
     @RequestMapping(path="/getCamera",method = RequestMethod.GET)
     public HttpResponseContent getCamera(){
         HttpResponseContent response = new HttpResponseContent();
         List<CarCameraResponse> carCameraResponseList = carService.getCamera();
+        response.setCode(ResponseEnum.SUCCESS.getCode());
+        response.setMessage(ResponseEnum.SUCCESS.getMessage());
+
+        response.setData(carCameraResponseList);
+        return response;
+    }
+
+    @ApiOperation(value = "获取车辆信息")
+    @RequestMapping(path="/getCarInfoAndVideoAnomaly",method = RequestMethod.GET)
+    public HttpResponseContent getCarInfoAndVideoAnomaly(){
+        HttpResponseContent response = new HttpResponseContent();
+
+        List<CarAndVideoAnomaly> carCameraResponseList = carService.getCarAndVideoAnomaly();
+
         response.setCode(ResponseEnum.SUCCESS.getCode());
         response.setMessage(ResponseEnum.SUCCESS.getMessage());
 

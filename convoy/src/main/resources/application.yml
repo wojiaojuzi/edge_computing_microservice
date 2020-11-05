@@ -2,7 +2,7 @@ spring:
   application:
     name: convoy-service
   datasource:
-    url: jdbc:mysql://localhost:3306/edge_computing_service?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/edge_computing_service_zunei?serverTimezone=UTC
     username: root
     password: a128263
 server:

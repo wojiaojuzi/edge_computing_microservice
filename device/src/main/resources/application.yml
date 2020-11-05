@@ -2,7 +2,7 @@ spring:
   application:
     name: device-service
   datasource:
-    url: jdbc:mysql://localhost:3306/microservice_edge?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/microservice_edge_zunei?serverTimezone=UTC
     username: root
     password: a128263
 server:

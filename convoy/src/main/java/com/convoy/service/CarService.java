@@ -1,15 +1,14 @@
 package com.convoy.service;
 
 
-import com.convoy.mapper.CarMapper;
-import com.convoy.mapper.ConvoyMapper;
-import com.convoy.mapper.DeviceGpsMapper;
-import com.convoy.mapper.DeviceMapper;
+import com.convoy.mapper.*;
 import com.convoy.model.Car;
 import com.convoy.model.Convoy;
 import com.convoy.model.DeviceGps;
+import com.convoy.model.Response.CarAndVideoAnomaly;
 import com.convoy.model.Response.CarCameraResponse;
 import com.convoy.model.Response.CarGpsResponse;
+import com.convoy.model.VideoAnomaly;
 import com.convoy.utils.ImitateCoor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,13 +22,15 @@ public class CarService {
     private final ConvoyMapper convoyMapper;
     private final DeviceMapper deviceMapper;
     private final DeviceGpsMapper deviceGpsMapper;
+    private final VideoAnomalyMapper videoAnomalyMapper;
 
     @Autowired
-    public CarService(CarMapper carMapper, ConvoyMapper convoyMapper, DeviceMapper deviceMapper, DeviceGpsMapper deviceGpsMapper) {
+    public CarService(CarMapper carMapper, ConvoyMapper convoyMapper, DeviceMapper deviceMapper, DeviceGpsMapper deviceGpsMapper,VideoAnomalyMapper videoAnomalyMapper) {
         this.carMapper = carMapper;
         this.convoyMapper = convoyMapper;
         this.deviceMapper = deviceMapper;
         this.deviceGpsMapper = deviceGpsMapper;
+        this.videoAnomalyMapper = videoAnomalyMapper;
     }
 
     public List<Car> getAllCars(){
@@ -42,6 +43,23 @@ public class CarService {
 
     public String getCommandCarNo(){
         return carMapper.getCommandCarNo();
+    }
+
+    public List<CarAndVideoAnomaly> getCarAndVideoAnomaly(){
+        List<CarAndVideoAnomaly> res = new ArrayList<>();
+        List<Car> cars = carMapper.getAll();
+        for(int i=0; i<cars.size(); i++){
+            Car car = cars.get(i);
+            if(car.getType().equals("押解车")){
+                VideoAnomaly videoAnomaly = videoAnomalyMapper.getLastestByCarNo(car.getCarNo());
+                CarAndVideoAnomaly carAndVideoAnomaly = new CarAndVideoAnomaly();
+                carAndVideoAnomaly.setCar(car);
+                carAndVideoAnomaly.setVideoAnomaly(videoAnomaly);
+                res.add(carAndVideoAnomaly);
+            }
+        }
+
+        return res;
     }
 
     public List<CarCameraResponse> getCamera(){
