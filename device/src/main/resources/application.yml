@@ -5,6 +5,10 @@ spring:
     url: jdbc:mysql://localhost:3306/microservice_edge_zunei?serverTimezone=UTC
     username: root
     password: a128263
+#    datasource:
+#      url: jdbc:mysql://10.109.246.54:3306/edge_computing_service_zunei?serverTimezone=UTC
+#      username: root
+#      password: hadoop
 server:
   port: 15004
 eureka:
