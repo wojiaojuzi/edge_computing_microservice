@@ -21,7 +21,7 @@ public class VideoAnomaly {
 
     private Integer videoRiskValue;
 
-    private String path;
+    private String storagePath;
 
     public String getId() {
         return id;
@@ -71,11 +71,11 @@ public class VideoAnomaly {
         this.videoRiskValue = videoRiskValue;
     }
 
-    public String getPath() {
-        return path;
+    public String getStoragePath() {
+        return storagePath;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setStoragePath(String storagePath) {
+        this.storagePath = storagePath;
     }
 }
