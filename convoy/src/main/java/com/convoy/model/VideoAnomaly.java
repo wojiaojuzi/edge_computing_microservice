@@ -11,7 +11,7 @@ public class VideoAnomaly {
     private String videoRiskLevel;
 
     @ApiModelProperty(value = "异常类型")
-    private String abnomalType;
+    private String abnormalType;
 
     @ApiModelProperty(value = "创建时间")
     private String createAt;
@@ -39,12 +39,12 @@ public class VideoAnomaly {
         this.videoRiskLevel = videoRiskLevel;
     }
 
-    public String getAbnomalType() {
-        return abnomalType;
+    public String getAbnormalType() {
+        return abnormalType;
     }
 
-    public void setAbnomalType(String abnomalType) {
-        this.abnomalType = abnomalType;
+    public void setAbnormalType(String abnormalType) {
+        this.abnormalType = abnormalType;
     }
 
     public String getCreateAt() {
